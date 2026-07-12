@@ -56,6 +56,7 @@ Rules:
     standard). If you had to settle for a standard whose room does not really fit, say "none".
   Reason from the standard's intent/context/tags; there is no precomputed hint.
 - Give an honest confidence in [0,1]; list the lessons you honored and any you had to violate.
+- Keep `rationale` to ONE concise sentence (~25 words): the single reason this product fits.
 - After the primary product, propose up to TWO other products from the SAME chosen standard's
   candidate list as ranked alternatives (`alternatives`), best-first, each with a one-line reason a
   human would use to pick it over the primary (e.g. higher NRC, firm-approved, better wear layer).

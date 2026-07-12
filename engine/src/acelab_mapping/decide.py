@@ -48,11 +48,15 @@ class Engine:
         decider: Decider,
         sync_date: str,
         max_alternatives: int | None = None,
+        with_alternatives: bool = False,
     ) -> None:
         self.catalog = catalog
         self.standards = standards
         self.decider = decider
         self.sync_date = sync_date
+        # Off by default: a mapped decision carries only its best pick. The ranked
+        # alternatives are an opt-in payload for the propose-select UI (PROPOSE-SELECT-HANDOFF).
+        self.with_alternatives = with_alternatives
         # The only silent cut is the hard filter, which drops just the *provably* disqualified.
         # Every product that survives it is a valid choice, so by default all of them are offered
         # to the decider (approved first) — the choice among valid options is qualitative, driven
@@ -263,35 +267,43 @@ class Engine:
             target_level="type",
             parameters=self._write_parameters(product),
         )
-        base.alternatives = self._alternatives(chosen, product_choice, conf, raw)
+        if self.with_alternatives:
+            base.alternatives = self._alternatives(chosen, product_choice, conf, raw)
         return base
-
-    _MAX_OPTIONS = 60  # a safety cap so a huge catalog can't produce an unusable dropdown
 
     def _alternatives(
         self, chosen: CandidateStandard, primary: CandidateProduct, primary_conf: Confidence, raw
     ) -> list[Alternative]:
-        """Every product that qualifies for the matched standard, offered as a selectable option so
-        a human can pick any grounded material — not just the engine's top pick. Order: the engine's
-        own primary first (it equals `chosen_product` and stays pre-selected), then the rest of the
-        qualified set (firm-approved first). Each option carries its own re-derived write and its own
-        composite confidence, so applying any of them needs no re-decision."""
+        """The options offered for this element. The **top 3** are the ranked recommendation — each
+        scored (own composite `confidence`) and carrying a one-line `reason` (the decider's rationale
+        for the primary, its short note for the runners-up). After them come **all other qualifying
+        products** (firm-approved first) with no score, so the user can still override to any grounded
+        material. `alternatives[0]` is the primary and stays pre-selected. Every option carries its
+        own re-derived write, so applying any of them needs no re-decision."""
         standard = next((s for s in self.standards if s.intent == chosen.intent), None)
         preferred = set(standard.preferred_products) if standard else set()
         qualified = qualified_products(standard, self.catalog.all()) if standard else []
 
         reasons: dict[str, str] = {primary.product_id: raw.rationale or ""}
-        for alt in raw.alternatives:  # keep the decider's short reasons where it gave one
-            reasons.setdefault(alt.product_id, alt.reason or "")
 
-        # primary first (pre-selected), then the rest of the qualified set (already approved-first)
-        order = [primary.product_id]
+        # top-3 ids: primary first, then the decider's grounded runners-up, padded from the qualified
+        # set (already approved-first) up to three.
+        ranked = [primary.product_id]
+        for alt in raw.alternatives:
+            if alt.product_id not in ranked and any(p.product_id == alt.product_id for p in qualified):
+                ranked.append(alt.product_id)
+                reasons.setdefault(alt.product_id, alt.reason or "")
         for product in qualified:
-            if product.product_id not in order:
-                order.append(product.product_id)
+            if len(ranked) >= 3:
+                break
+            if product.product_id not in ranked:
+                ranked.append(product.product_id)
+        ranked = ranked[:3]
+        ranked_set = set(ranked)
 
         options: list[Alternative] = []
-        for pid in order[: self._MAX_OPTIONS]:
+        # scored top-3 (best-first)
+        for pid in ranked:
             product = self.catalog.get(pid)
             if product is None:
                 continue
@@ -301,25 +313,30 @@ class Engine:
                 if pid == primary.product_id
                 else composite(raw.confidence, raw.room_fit, is_pref, has_violations=False)
             )
-            options.append(
-                Alternative(
-                    product_id=product.product_id,
-                    name=product.name,
-                    manufacturer=product.manufacturer,
-                    url=product.url,
-                    is_preferred=is_pref,
-                    reason=reasons.get(pid) or None,
-                    nrc=product.nrc,
-                    fire_class=product.fire_class,
-                    humidity=product.humidity,
-                    nfpa_285=product.nfpa_285,
-                    wear_mil=product.wear_mil,
-                    dcof=product.dcof,
-                    confidence=conf,
-                    revit_write=RevitWrite(target_level="type", parameters=self._write_parameters(product)),
-                )
-            )
+            options.append(self._option(product, is_pref, reasons.get(pid) or None, conf))
+        # everything else that qualifies, unscored (approved-first, already ordered)
+        for product in qualified:
+            if product.product_id not in ranked_set:
+                options.append(self._option(product, product.product_id in preferred, None, None))
         return options
+
+    def _option(self, product, is_preferred: bool, reason, conf) -> Alternative:
+        return Alternative(
+            product_id=product.product_id,
+            name=product.name,
+            manufacturer=product.manufacturer,
+            url=product.url,
+            is_preferred=is_preferred,
+            reason=reason,
+            nrc=product.nrc,
+            fire_class=product.fire_class,
+            humidity=product.humidity,
+            nfpa_285=product.nfpa_285,
+            wear_mil=product.wear_mil,
+            dcof=product.dcof,
+            confidence=conf,
+            revit_write=RevitWrite(target_level="type", parameters=self._write_parameters(product)),
+        )
 
     def _confirm_existing(self, base: Decision, product, enforceable: list[Standard]) -> Decision:
         standard = next((s for s in enforceable if qualifies(product, s)), None)
@@ -335,26 +352,27 @@ class Engine:
         base.how = f"type already names catalog product {product.product_id}; confirmed without re-deciding"
         base.confidence = Confidence(score=0.99, band="write", components={"already_specified": 1.0})
         base.revit_write = RevitWrite(target_level="type", parameters=self._write_parameters(product))
-        # A confirmed pick has no runners-up — the type already names it. Keep a single-entry
-        # alternatives list so every mapped decision has the same shape.
-        base.alternatives = [
-            Alternative(
-                product_id=product.product_id,
-                name=product.name,
-                manufacturer=product.manufacturer,
-                url=product.url,
-                is_preferred=True,
-                reason="already specified on the type",
-                nrc=product.nrc,
-                fire_class=product.fire_class,
-                humidity=product.humidity,
-                nfpa_285=product.nfpa_285,
-                wear_mil=product.wear_mil,
-                dcof=product.dcof,
-                confidence=base.confidence,
-                revit_write=base.revit_write,
-            )
-        ]
+        # A confirmed pick has no runners-up — the type already names it. When alternatives are
+        # requested, keep a single-entry list so every mapped decision has the same shape.
+        if self.with_alternatives:
+            base.alternatives = [
+                Alternative(
+                    product_id=product.product_id,
+                    name=product.name,
+                    manufacturer=product.manufacturer,
+                    url=product.url,
+                    is_preferred=True,
+                    reason="already specified on the type",
+                    nrc=product.nrc,
+                    fire_class=product.fire_class,
+                    humidity=product.humidity,
+                    nfpa_285=product.nfpa_285,
+                    wear_mil=product.wear_mil,
+                    dcof=product.dcof,
+                    confidence=base.confidence,
+                    revit_write=base.revit_write,
+                )
+            ]
         if standard is None:
             base.needs_review = True
             base.note = "already specified on the type, but it meets no applicable firm standard — flagged"

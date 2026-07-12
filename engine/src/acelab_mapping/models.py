@@ -208,10 +208,11 @@ class ChosenProduct(BaseModel):
 
 
 class Alternative(BaseModel):
-    """One of the ranked options offered for a mapped element. Each is a fully grounded pick:
-    its own re-derived `revit_write` and composite `confidence`, so a human (or the adapter)
-    can apply whichever option is chosen without the engine re-deciding. `alternatives[0]` is
-    the engine's own primary and equals the decision's `chosen_product`/`confidence`."""
+    """One selectable option for a mapped element. Each is a fully grounded pick with its own
+    re-derived `revit_write`, so a human (or the adapter) can apply whichever is chosen without the
+    engine re-deciding. The **top 3** carry a composite `confidence` and a one-line `reason` (the
+    ranked recommendation, `alternatives[0]` = `chosen_product`); the remaining qualifying products
+    follow with `confidence=None` (no score) so the user can still override to any of them."""
 
     product_id: str
     name: str
@@ -226,7 +227,7 @@ class Alternative(BaseModel):
     nfpa_285: Optional[bool] = None
     wear_mil: Optional[float] = None
     dcof: Optional[float] = None
-    confidence: Confidence
+    confidence: Optional[Confidence] = None  # only the top 3 are scored
     revit_write: RevitWrite
 
 
@@ -240,7 +241,8 @@ class Decision(BaseModel):
     how: Optional[str] = None
     chosen_product: Optional[ChosenProduct] = None
     # Ranked options for this element, best-first; alternatives[0] mirrors chosen_product.
-    alternatives: list[Alternative] = Field(default_factory=list)
+    # Opt-in (engine `with_alternatives`): None when off, so it drops from the artifact.
+    alternatives: Optional[list[Alternative]] = None
     why: Optional[str] = None
     confidence: Optional[Confidence] = None
     honors_lessons: list[str] = Field(default_factory=list)

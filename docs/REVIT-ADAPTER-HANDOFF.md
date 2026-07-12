@@ -101,27 +101,16 @@ Produced by the engine; the add-in reads it and applies. Real examples from a ru
       "Acelab_Last_Synced": "2026-07-12",
       "Fire Rating": "Class A"
     }
-  },
-  "alternatives": [
-    { "product_id": "cl-1004", "name": "Northwind Quietude 300", "manufacturer": "Northwind Ceilings",
-      "url": "https://material-hub.acelabusa.com/products/cl-1004", "is_preferred": true,
-      "reason": "Room fit 'match'; firm-approved acoustic tile.",
-      "confidence": { "score": 0.965, "band": "write", "components": { "room": 1.0, "approved": 1.0, "llm": 0.9, "lessons_penalty": 1.0 } },
-      "revit_write": { "target_level": "type", "parameters": { "Acelab_Product_ID": "cl-1004", "...": "..." } } },
-    { "product_id": "cl-1022", "name": "Northwind Fissured 600", "is_preferred": true,
-      "reason": "Firm-approved alternative, same fire class.",
-      "confidence": { "score": 0.965, "band": "write", "components": {} },
-      "revit_write": { "target_level": "type", "parameters": { "...": "..." } } }
-  ]
+  }
 }
 ```
 
-`alternatives` is **every product that qualifies for the matched standard**, best-first (capped at
-60). `alternatives[0]` mirrors `chosen_product` (same product, same `confidence`) and is the
-pre-selected recommendation; the rest are the other qualifying products (firm-approved first) so the
-user can override to any grounded material. **Each option is independently applicable** — its own
-composite `confidence` and re-derived `revit_write` — so the add-in writes whichever the user
-selects, with no engine round-trip. A confirmed already-specified type carries a single-entry list.
+By default a mapped decision carries **only the best pick** (`chosen_product` + `revit_write`) — the
+lean shape above. Run with **`--alternatives`** to also emit a ranked `alternatives` array (for the
+propose-select UI): every product that qualifies for the matched standard, best-first (capped at 60),
+each independently applicable with its own composite `confidence` and re-derived `revit_write`, so the
+add-in writes whichever the user selects with no engine round-trip. `alternatives[0]` mirrors
+`chosen_product`; a confirmed already-specified type carries a single-entry list.
 
 **An abstained element (do nothing) — a category the firm library doesn't cover:**
 ```json

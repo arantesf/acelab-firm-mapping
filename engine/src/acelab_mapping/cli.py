@@ -59,6 +59,11 @@ def main(argv: list[str] | None = None) -> int:
         help="emit one decision per line to stdout ('@@DECISION@@ <json>') as it resolves, so a "
              "live UI can populate rows one at a time; the full artifact is still written to --out",
     )
+    run.add_argument(
+        "--alternatives", action="store_true",
+        help="include the ranked grounded alternatives per mapped element (for the propose-select "
+             "UI); off by default so the artifact carries only the best pick",
+    )
 
     args = parser.parse_args(argv)
 
@@ -68,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
     model = json.loads(args.model.read_text(encoding="utf-8"))
 
     decider, decider_label = _build_decider(args.decider, args.cache, args.workers)
-    engine = Engine(catalog, standards, decider, sync_date=args.date)
+    engine = Engine(catalog, standards, decider, sync_date=args.date, with_alternatives=args.alternatives)
 
     # One batch call for the whole model — the same shape a hosted service would answer over HTTP.
     # Dedup and concurrency for the distinct decisions live behind the decider seam, not here.

@@ -189,12 +189,13 @@ for a mapping a `revit_write` block (`target_level: type`, parameters). Skips an
 carry a `note`. Produce one by running the engine (see [`README.md`](../README.md)); the exact
 schema is in [`REVIT-ADAPTER-HANDOFF.md §3`](REVIT-ADAPTER-HANDOFF.md).
 
-A mapping also carries `alternatives`: **every product that qualifies for the matched standard**,
-best-first, so a human can pick any grounded material rather than the agent deciding alone.
-`alternatives[0]` *is* `chosen_product` (same product, same `confidence`) and stays pre-selected;
-the rest are the other qualifying products (firm-approved first). Each option is independently
-applicable — it carries its own composite `confidence` and re-derived `revit_write` — so the
-adapter can write whichever the user selects without the engine re-deciding.
+By default a mapped decision carries **only its best pick** — the `chosen_product` and its
+`revit_write` — matching the lean shape of the sample artifact. Ranked `alternatives` are an
+**opt-in** payload (`--alternatives`, engine `with_alternatives`) for the propose-select UI
+(see [`PROPOSE-SELECT-HANDOFF.md`](PROPOSE-SELECT-HANDOFF.md)): every product that qualifies for
+the matched standard, best-first, so a human can override to any grounded material. `alternatives[0]`
+*is* `chosen_product`; each option is independently applicable — its own composite `confidence` and
+re-derived `revit_write` — so the adapter writes whichever the user selects without re-deciding.
 
 ---
 
