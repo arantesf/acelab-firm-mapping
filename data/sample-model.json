@@ -1,0 +1,306 @@
+{
+  "model_name": "Acme - Midtown Mixed-Use Sample",
+  "revit_version": "2024",
+  "units": "Metric (mm)",
+  "_about": "Serialized snapshot of the placed elements in the sample model, mirroring a FilteredElementCollector enumeration, so the mapping/agent engine can be built and tested with NO Revit installed. The matching .rvt is on the GitHub Release. Most elements are generic/unmapped on purpose: the firm library expresses intent, and deciding which standard (if any) applies to each element is the core task.",
+  "element_count": 38,
+  "elements": [
+    {
+      "element_id": 312306,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - Exterior 300mm",
+      "level": "Level 1",
+      "exterior": true
+    },
+    {
+      "element_id": 312660,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - 200mm",
+      "level": "Level 1"
+    },
+    {
+      "element_id": 312609,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic Floor",
+      "level": "Level 3",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312547,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic - 150mm",
+      "level": "Level 2",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312316,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - Exterior 300mm",
+      "level": "Level 2",
+      "exterior": true
+    },
+    {
+      "element_id": 312754,
+      "category": "Windows",
+      "family": "Fixed",
+      "type": "1200 x 1500mm",
+      "level": "Level 2"
+    },
+    {
+      "element_id": 312447,
+      "category": "Walls",
+      "family": "Curtain Wall",
+      "type": "Exterior Glazing - Spandrel",
+      "level": "Level 4",
+      "exterior": true
+    },
+    {
+      "element_id": 312749,
+      "category": "Doors",
+      "family": "Single-Flush",
+      "type": "0915 x 2134mm",
+      "level": "Level 2"
+    },
+    {
+      "element_id": 312454,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - Exterior 300mm",
+      "level": "Level 5",
+      "exterior": true
+    },
+    {
+      "element_id": 312506,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic - 150mm",
+      "level": "Level 1",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312134,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic 600 x 600",
+      "level": "Level 3",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312121,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 2",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312602,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic - 150mm",
+      "level": "Level 3",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312171,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 3",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312351,
+      "category": "Walls",
+      "family": "Curtain Wall",
+      "type": "Exterior Glazing - Spandrel",
+      "level": "Level 2",
+      "exterior": true
+    },
+    {
+      "element_id": 312226,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 4",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312402,
+      "category": "Walls",
+      "family": "Curtain Wall",
+      "type": "Exterior Glazing - Spandrel",
+      "level": "Level 3",
+      "exterior": true
+    },
+    {
+      "element_id": 312297,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 2",
+      "room": "Pool Deck"
+    },
+    {
+      "element_id": 312315,
+      "category": "Walls",
+      "family": "Curtain Wall",
+      "type": "Exterior Glazing - Spandrel",
+      "level": "Level 1",
+      "exterior": true
+    },
+    {
+      "element_id": 312071,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Acme - Northwind Quietude 300",
+      "level": "Level 3",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312417,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - Exterior 300mm",
+      "level": "Level 4",
+      "exterior": true
+    },
+    {
+      "element_id": 312703,
+      "category": "Doors",
+      "family": "Single-Flush",
+      "type": "0915 x 2134mm",
+      "level": "Level 1"
+    },
+    {
+      "element_id": 312733,
+      "category": "Windows",
+      "family": "Fixed",
+      "type": "1200 x 1500mm",
+      "level": "Level 1"
+    },
+    {
+      "element_id": 312280,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 2",
+      "room": "Locker Room"
+    },
+    {
+      "element_id": 312035,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Acme - Northwind Quietude 300",
+      "level": "Level 2",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312512,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic Floor",
+      "level": "Level 1",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312473,
+      "category": "Walls",
+      "family": "Curtain Wall",
+      "type": "Exterior Glazing - Spandrel",
+      "level": "Level 5",
+      "exterior": true
+    },
+    {
+      "element_id": 312249,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic - Lay-in",
+      "level": "Level 2",
+      "room": "Restroom 201"
+    },
+    {
+      "element_id": 312004,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Acme - Northwind Quietude 300",
+      "level": "Level 1",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312785,
+      "category": "Furniture",
+      "family": "Desk",
+      "type": "Standard Workstation",
+      "level": "Level 2"
+    },
+    {
+      "element_id": 312089,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic 600 x 600",
+      "level": "Level 2",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312824,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic - 150mm",
+      "level": "Level 1",
+      "room": "Lobby"
+    },
+    {
+      "element_id": 312572,
+      "category": "Floors",
+      "family": "Floor",
+      "type": "Generic Floor",
+      "level": "Level 2",
+      "room": "Corridor"
+    },
+    {
+      "element_id": 312373,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - Exterior 300mm",
+      "level": "Level 3",
+      "exterior": true
+    },
+    {
+      "element_id": 312625,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - 100mm Partition",
+      "level": "Level 1",
+      "room": "Meeting Room"
+    },
+    {
+      "element_id": 312672,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - 100mm Partition",
+      "level": "Level 2",
+      "room": "Meeting Room"
+    },
+    {
+      "element_id": 312187,
+      "category": "Ceilings",
+      "family": "Compound Ceiling",
+      "type": "Generic 600 x 600",
+      "level": "Level 4",
+      "room": "Open Office"
+    },
+    {
+      "element_id": 312687,
+      "category": "Walls",
+      "family": "Basic Wall",
+      "type": "Generic - 200mm",
+      "level": "Level 2"
+    }
+  ]
+}

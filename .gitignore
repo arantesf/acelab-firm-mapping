@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# run output is reproducible, not source — except the one committed real-run artifact
+artifacts/*
+!artifacts/mapping-result.json
+engine/artifacts/

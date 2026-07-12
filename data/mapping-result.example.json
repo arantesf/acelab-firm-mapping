@@ -1,0 +1,60 @@
+{
+  "_comment": "ILLUSTRATIVE ONLY \u2014 shows the SHAPE of the artifact your agent should emit, not a required schema. A reviewer with no Revit must be able to open this and see, per element, what the agent decided, why, its confidence, and what it wrote (or why it abstained). Design your own.",
+  "run": {
+    "model": "Acme - Midtown Mixed-Use Sample",
+    "firm_library_version": "2026.2",
+    "mode": "dry-run",
+    "model_agent": "claude-... (your choice)"
+  },
+  "summary": {
+    "elements_total": 38,
+    "decided": 0,
+    "abstained": 0,
+    "skipped_uncovered_category": 0,
+    "products_considered": 366
+  },
+  "decisions": [
+    {
+      "element_id": 312042,
+      "category": "Ceilings",
+      "type": "Generic 600 x 600",
+      "room": "Open Office",
+      "matched_standard": "Acoustic ceilings in open-plan office areas",
+      "how": "inferred from category=Ceilings + room=Open Office (no product on the type)",
+      "chosen_product": {
+        "product_id": "cl-1004",
+        "name": "Northwind Quietude 300",
+        "why": "meets firm min NRC 0.80 and Class A; approved for open office"
+      },
+      "confidence": 0.86,
+      "parameters_written": {
+        "Fire Rating": "Class A",
+        "Absorption (NRC)": "0.85",
+        "Acelab_Product_ID": "cl-1004",
+        "Acelab_Manufacturer": "Contoso Acoustics",
+        "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/...",
+        "Acelab_Last_Synced": "2026-07-09"
+      },
+      "target_level": "type"
+    },
+    {
+      "element_id": 312108,
+      "category": "Walls",
+      "type": "Generic - 100mm Partition",
+      "room": "Meeting Room",
+      "matched_standard": null,
+      "how": "no firm standard covers interior partitions; catalog has no interior-partition category",
+      "chosen_product": null,
+      "confidence": 0.2,
+      "action": "abstained",
+      "note": "Flagged for human review rather than guessing an acoustic product."
+    },
+    {
+      "element_id": 312077,
+      "category": "Doors",
+      "type": "0915 x 2134mm",
+      "action": "skipped",
+      "reason": "category not covered by the firm library"
+    }
+  ]
+}

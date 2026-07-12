@@ -1,0 +1,90 @@
+{
+  "_about": "Acme Architects is a FICTIONAL, placeholder architecture firm created for this assessment (any resemblance to a real firm is coincidental). This is its firm-library overlay on top of Acelab's catalog: it captures the firm's APPROVED products and hard-won standards as INTENT and lessons-learned \u2014 not as a clean element-type -> product table. Bridging a model element to the right standard, then to an approved product that actually meets the requirements, is the work.",
+  "firm": "Acme Architects",
+  "library_version": "2026.2",
+  "shared_parameter_file": "Acelab-SharedParameters.txt",
+  "standards": [
+    {
+      "intent": "Acoustic ceilings in open-plan office areas",
+      "context": "Applies to lay-in ceilings over open workstations. In our models these are usually modeled as generic Compound Ceilings until a product is selected.",
+      "requirements": {
+        "category": "Acoustic Ceilings",
+        "min_nrc": 0.8,
+        "fire_rating": "Class A"
+      },
+      "preferred_products": [
+        "cl-1004",
+        "cl-1022",
+        "cl-1028"
+      ],
+      "lessons_learned": "We standardized on high-NRC (>=0.80) Class A tiles after acoustic complaints on the Voss project. Avoid anything below 0.75 in open offices no matter how good the price. HumiGuard-equivalent humidity resistance is required near rooftop units.",
+      "tags": [
+        "acoustic",
+        "interior",
+        "ceiling",
+        "office"
+      ]
+    },
+    {
+      "intent": "Ceilings in high-humidity rooms (restrooms, locker/natatorium)",
+      "context": "Rooms flagged as Restroom / Locker / Pool. Must resist sag.",
+      "requirements": {
+        "category": "Acoustic Ceilings",
+        "humidity_resistance": true,
+        "fire_rating": "Class A"
+      },
+      "preferred_products": [
+        "cl-1038",
+        "cl-1124"
+      ],
+      "lessons_learned": "Mineral fiber sags in humid rooms; prefer fiberglass or coated tiles rated for high humidity. Do not reuse the open-office tile here even though it's approved there.",
+      "tags": [
+        "acoustic",
+        "ceiling",
+        "humidity",
+        "wet"
+      ]
+    },
+    {
+      "intent": "Exterior rainscreen cladding on the building envelope",
+      "context": "Applies to exterior walls / curtain-wall spandrel zones. Combustible-facade rules apply above podium.",
+      "requirements": {
+        "category": "Exterior Cladding",
+        "nfpa_285": true
+      },
+      "preferred_products": [
+        "cw-1197",
+        "cw-1155",
+        "cw-1160"
+      ],
+      "lessons_learned": "NFPA 285 compliance is non-negotiable on anything over 40 ft. Terracotta and fiber cement have been our reliable choices; ACM only where we've confirmed the tested assembly. Budget cladding at < $12/sf almost never meets our wind-load needs on tall facades.",
+      "tags": [
+        "cladding",
+        "exterior",
+        "envelope",
+        "fire"
+      ]
+    },
+    {
+      "intent": "Resilient flooring in corridors and high-traffic areas",
+      "context": "Applies to Floors in circulation spaces. Slip resistance and thick wear layer matter.",
+      "requirements": {
+        "category": "Resilient Flooring",
+        "min_wear_mil": 20,
+        "slip": "DCOF 0.42"
+      },
+      "preferred_products": [
+        "fl-1322",
+        "fl-1337",
+        "fl-1304"
+      ],
+      "lessons_learned": "20 mil wear layer minimum in commercial corridors; 12 mil wears through in ~3 years. FloorScore/Greenguard emissions cert is required for our healthcare and education clients. Watch moisture limits on slab-on-grade.",
+      "tags": [
+        "flooring",
+        "resilient",
+        "corridor",
+        "traffic"
+      ]
+    }
+  ]
+}

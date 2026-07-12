@@ -1,0 +1,11 @@
+# This is a Revit shared parameter file.
+# Do not edit manually.
+*META	VERSION	MINVERSION
+META	2	1
+*GROUP	ID	NAME
+GROUP	1	Acelab
+*PARAM	GUID	NAME	DATATYPE	DATACATEGORY	GROUP	VISIBLE	DESCRIPTION	USERMODIFIABLE	HIDEWHENNOVALUE
+PARAM	a1f0e7c2-1b3d-4e2a-9c11-0a1b2c3d4e01	Acelab_Product_ID	TEXT		1	1	Stable Acelab product identifier	1	0
+PARAM	a1f0e7c2-1b3d-4e2a-9c11-0a1b2c3d4e02	Acelab_Product_URL	TEXT		1	1	Link to the product on Material Hub	1	0
+PARAM	a1f0e7c2-1b3d-4e2a-9c11-0a1b2c3d4e03	Acelab_Manufacturer	TEXT		1	1	Manufacturer name as listed on Acelab	1	0
+PARAM	a1f0e7c2-1b3d-4e2a-9c11-0a1b2c3d4e04	Acelab_Last_Synced	TEXT		1	1	Date the mapping was last inherited from the firm library	1	0
