@@ -14,6 +14,505 @@
     "needs_review": 0,
     "products_considered": 366
   },
+  "groups": [
+    {
+      "category": "Walls",
+      "type": "Generic - Exterior 300mm",
+      "action": "map",
+      "count": 5,
+      "element_ids": [
+        312306,
+        312316,
+        312454,
+        312417,
+        312373
+      ],
+      "matched_standard": "Exterior rainscreen cladding on the building envelope",
+      "chosen_product": {
+        "product_id": "cw-1160",
+        "name": "Wingtip Monolith",
+        "manufacturer": "Wingtip Panels",
+        "url": "https://material-hub.acelabusa.com/products/cw-1160"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "The element is an exterior wall, matching the standard's intent, and cw-1160 is a preferred, NFPA 285-compliant fiber cement product with project-specific wind load.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cw-1160",
+          "Acelab_Manufacturer": "Wingtip Panels",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cw-1160",
+          "Acelab_Last_Synced": "2026-07-12"
+        }
+      }
+    },
+    {
+      "category": "Walls",
+      "type": "Exterior Glazing - Spandrel",
+      "action": "map",
+      "count": 5,
+      "element_ids": [
+        312447,
+        312351,
+        312402,
+        312315,
+        312473
+      ],
+      "matched_standard": "Exterior rainscreen cladding on the building envelope",
+      "chosen_product": {
+        "product_id": "cw-1160",
+        "name": "Wingtip Monolith",
+        "manufacturer": "Wingtip Panels",
+        "url": "https://material-hub.acelabusa.com/products/cw-1160"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "The element is an exterior wall, matching the standard's intent, and cw-1160 is a preferred, NFPA 285-compliant fiber cement product with project-specific wind load.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cw-1160",
+          "Acelab_Manufacturer": "Wingtip Panels",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cw-1160",
+          "Acelab_Last_Synced": "2026-07-12"
+        }
+      }
+    },
+    {
+      "category": "Floors",
+      "type": "Generic Floor",
+      "room": "Corridor",
+      "action": "map",
+      "count": 3,
+      "element_ids": [
+        312609,
+        312512,
+        312572
+      ],
+      "matched_standard": "Resilient flooring in corridors and high-traffic areas",
+      "chosen_product": {
+        "product_id": "fl-1322",
+        "name": "Initech Nordic",
+        "manufacturer": "Initech LVT",
+        "url": "https://material-hub.acelabusa.com/products/fl-1322"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Initech Nordic is a preferred resilient flooring with 28 mil wear layer, Greenguard Gold certified, ideal for commercial corridors.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "fl-1322",
+          "Acelab_Manufacturer": "Initech LVT",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/fl-1322",
+          "Acelab_Last_Synced": "2026-07-12"
+        }
+      }
+    },
+    {
+      "category": "Floors",
+      "type": "Generic - 150mm",
+      "room": "Corridor",
+      "action": "map",
+      "count": 3,
+      "element_ids": [
+        312547,
+        312506,
+        312602
+      ],
+      "matched_standard": "Resilient flooring in corridors and high-traffic areas",
+      "chosen_product": {
+        "product_id": "fl-1322",
+        "name": "Initech Nordic",
+        "manufacturer": "Initech LVT",
+        "url": "https://material-hub.acelabusa.com/products/fl-1322"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Initech Nordic is a preferred resilient flooring with 28 mil wear layer, Greenguard Gold certified, ideal for commercial corridors.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "fl-1322",
+          "Acelab_Manufacturer": "Initech LVT",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/fl-1322",
+          "Acelab_Last_Synced": "2026-07-12"
+        }
+      }
+    },
+    {
+      "category": "Ceilings",
+      "type": "Generic 600 x 600",
+      "room": "Open Office",
+      "action": "map",
+      "count": 3,
+      "element_ids": [
+        312134,
+        312089,
+        312187
+      ],
+      "matched_standard": "Acoustic ceilings in open-plan office areas",
+      "chosen_product": {
+        "product_id": "cl-1022",
+        "name": "Northwind Fissured 600",
+        "manufacturer": "Northwind Ceilings",
+        "url": "https://material-hub.acelabusa.com/products/cl-1022"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Selected Northwind Fissured 600 for its high NRC (0.85), Class A fire rating, high humidity resistance, and firm-preferred status for open offices.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1022",
+          "Acelab_Manufacturer": "Northwind Ceilings",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1022",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Ceilings",
+      "type": "Generic - Lay-in",
+      "room": "Open Office",
+      "action": "map",
+      "count": 3,
+      "element_ids": [
+        312121,
+        312171,
+        312226
+      ],
+      "matched_standard": "Acoustic ceilings in open-plan office areas",
+      "chosen_product": {
+        "product_id": "cl-1022",
+        "name": "Northwind Fissured 600",
+        "manufacturer": "Northwind Ceilings",
+        "url": "https://material-hub.acelabusa.com/products/cl-1022"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Selected Northwind Fissured 600 for its high NRC (0.85), Class A fire rating, high humidity resistance, and firm-preferred status for open offices.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1022",
+          "Acelab_Manufacturer": "Northwind Ceilings",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1022",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Ceilings",
+      "type": "Acme - Northwind Quietude 300",
+      "room": "Open Office",
+      "action": "map",
+      "count": 3,
+      "element_ids": [
+        312071,
+        312035,
+        312004
+      ],
+      "matched_standard": "Acoustic ceilings in open-plan office areas",
+      "chosen_product": {
+        "product_id": "cl-1004",
+        "name": "Northwind Quietude 300",
+        "manufacturer": "Northwind Ceilings",
+        "url": "https://material-hub.acelabusa.com/products/cl-1004"
+      },
+      "confidence": {
+        "score": 0.99,
+        "band": "write",
+        "components": {
+          "already_specified": 1.0
+        }
+      },
+      "needs_review": false,
+      "note": "already specified on the type; confirmed",
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1004",
+          "Acelab_Manufacturer": "Northwind Ceilings",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1004",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Walls",
+      "type": "Generic - 200mm",
+      "action": "abstain",
+      "count": 2,
+      "element_ids": [
+        312660,
+        312687
+      ],
+      "needs_review": false,
+      "note": "element category is outside the firm library's coverage"
+    },
+    {
+      "category": "Windows",
+      "type": "1200 x 1500mm",
+      "action": "abstain",
+      "count": 2,
+      "element_ids": [
+        312754,
+        312733
+      ],
+      "needs_review": false,
+      "note": "element category is outside the firm library's coverage"
+    },
+    {
+      "category": "Doors",
+      "type": "0915 x 2134mm",
+      "action": "abstain",
+      "count": 2,
+      "element_ids": [
+        312749,
+        312703
+      ],
+      "needs_review": false,
+      "note": "element category is outside the firm library's coverage"
+    },
+    {
+      "category": "Walls",
+      "type": "Generic - 100mm Partition",
+      "room": "Meeting Room",
+      "action": "abstain",
+      "count": 2,
+      "element_ids": [
+        312625,
+        312672
+      ],
+      "needs_review": false,
+      "note": "element category is outside the firm library's coverage"
+    },
+    {
+      "category": "Ceilings",
+      "type": "Generic - Lay-in",
+      "room": "Pool Deck",
+      "action": "map",
+      "count": 1,
+      "element_ids": [
+        312297
+      ],
+      "matched_standard": "Ceilings in high-humidity rooms (restrooms, locker/natatorium)",
+      "chosen_product": {
+        "product_id": "cl-1124",
+        "name": "Litware Vellum 900",
+        "manufacturer": "Litware Interiors",
+        "url": "https://material-hub.acelabusa.com/products/cl-1124"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Pool Deck is a high-humidity wet room requiring sag-resistant ceilings; cl-1124 is a preferred fiberglass high-humidity tile meeting all criteria.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1124",
+          "Acelab_Manufacturer": "Litware Interiors",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1124",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Ceilings",
+      "type": "Generic - Lay-in",
+      "room": "Locker Room",
+      "action": "map",
+      "count": 1,
+      "element_ids": [
+        312280
+      ],
+      "matched_standard": "Ceilings in high-humidity rooms (restrooms, locker/natatorium)",
+      "chosen_product": {
+        "product_id": "cl-1124",
+        "name": "Litware Vellum 900",
+        "manufacturer": "Litware Interiors",
+        "url": "https://material-hub.acelabusa.com/products/cl-1124"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Selected fiberglass high-humidity resistant ceiling tile preferred for locker rooms to prevent sagging per lessons learned.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1124",
+          "Acelab_Manufacturer": "Litware Interiors",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1124",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Ceilings",
+      "type": "Generic - Lay-in",
+      "room": "Restroom 201",
+      "action": "map",
+      "count": 1,
+      "element_ids": [
+        312249
+      ],
+      "matched_standard": "Ceilings in high-humidity rooms (restrooms, locker/natatorium)",
+      "chosen_product": {
+        "product_id": "cl-1124",
+        "name": "Litware Vellum 900",
+        "manufacturer": "Litware Interiors",
+        "url": "https://material-hub.acelabusa.com/products/cl-1124"
+      },
+      "confidence": {
+        "score": 0.982,
+        "band": "write",
+        "components": {
+          "room": 1.0,
+          "approved": 1.0,
+          "llm": 0.95,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "The element is a restroom ceiling requiring high humidity resistance; cl-1124 is a preferred fiberglass tile rated for high humidity and Class A fire.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "cl-1124",
+          "Acelab_Manufacturer": "Litware Interiors",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/cl-1124",
+          "Acelab_Last_Synced": "2026-07-12",
+          "Fire Rating": "Class A"
+        }
+      }
+    },
+    {
+      "category": "Furniture",
+      "type": "Standard Workstation",
+      "action": "abstain",
+      "count": 1,
+      "element_ids": [
+        312785
+      ],
+      "needs_review": false,
+      "note": "element category is outside the firm library's coverage"
+    },
+    {
+      "category": "Floors",
+      "type": "Generic - 150mm",
+      "room": "Lobby",
+      "action": "map",
+      "count": 1,
+      "element_ids": [
+        312824
+      ],
+      "matched_standard": "Resilient flooring in corridors and high-traffic areas",
+      "chosen_product": {
+        "product_id": "fl-1322",
+        "name": "Initech Nordic",
+        "manufacturer": "Initech LVT",
+        "url": "https://material-hub.acelabusa.com/products/fl-1322"
+      },
+      "confidence": {
+        "score": 0.765,
+        "band": "write",
+        "components": {
+          "room": 0.5,
+          "approved": 1.0,
+          "llm": 0.9,
+          "lessons_penalty": 1.0
+        }
+      },
+      "why": "Lobby is a circulation-adjacent space, so this preferred resilient flooring with 28 mil wear layer fits well for durability and emissions.",
+      "needs_review": false,
+      "revit_write": {
+        "target_level": "type",
+        "parameters": {
+          "Acelab_Product_ID": "fl-1322",
+          "Acelab_Manufacturer": "Initech LVT",
+          "Acelab_Product_URL": "https://material-hub.acelabusa.com/products/fl-1322",
+          "Acelab_Last_Synced": "2026-07-12"
+        }
+      }
+    }
+  ],
   "decisions": [
     {
       "element_id": 312306,
