@@ -41,7 +41,7 @@ def test_every_mapped_decision_has_grounded_alternatives(engine, decisions):
     by_intent = {s.intent: s for s in standards}
     for d in decisions:
         if d.action != "map":
-            assert not d.alternatives
+            # an abstention on a covered category may still offer unscored manual options
             continue
 
         assert len(d.alternatives) >= 1

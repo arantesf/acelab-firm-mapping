@@ -55,7 +55,7 @@ class Engine:
         self.decider = decider
         self.sync_date = sync_date
         # Off by default: a mapped decision carries only its best pick. The ranked
-        # alternatives are an opt-in payload for the propose-select UI (PROPOSE-SELECT-HANDOFF).
+        # alternatives are an opt-in payload for the propose-select review UI in the Revit add-in.
         self.with_alternatives = with_alternatives
         # The only silent cut is the hard filter, which drops just the *provably* disqualified.
         # Every product that survives it is a valid choice, so by default all of them are offered
@@ -225,17 +225,20 @@ class Engine:
             base.action = "abstain"
             base.note = raw.abstain_reason or "decider abstained"
             base.why = raw.rationale or None
+            self._offer_manual(base, candidates)
             return base
 
         chosen = next((c for c in candidates if c.id == raw.standard_id), None)
         if chosen is None:
             base.action = "abstain"
             base.note = "decider named a standard outside the candidate set"
+            self._offer_manual(base, candidates)
             return base
         product_choice = next((p for p in chosen.qualified if p.product_id == raw.product_id), None)
         if product_choice is None:
             base.action = "abstain"
             base.note = "decider chose a product outside the grounded candidate set"
+            self._offer_manual(base, candidates)
             return base
 
         conf = composite(
@@ -252,6 +255,7 @@ class Engine:
         if conf.band == "abstain":
             base.action = "abstain"
             base.note = f"composite confidence {conf.score} below write/review threshold"
+            self._offer_manual(base, candidates)
             return base
 
         product = self.catalog.get(product_choice.product_id)
@@ -317,6 +321,31 @@ class Engine:
         # everything else that qualifies, unscored (approved-first, already ordered)
         for product in qualified:
             if product.product_id not in ranked_set:
+                options.append(self._option(product, product.product_id in preferred, None, None))
+        return options
+
+    def _offer_manual(self, base: Decision, candidates: list[CandidateStandard]) -> None:
+        """When the agent abstains but the element's category IS covered, still hand the user the
+        grounded materials (unscored) so they can decide manually — the abstention explains itself in
+        `note`, and the adapter shows a dropdown instead of a dead end. Only genuinely uncovered
+        categories (no candidate standard) get no options."""
+        if self.with_alternatives:
+            base.alternatives = self._manual_options(candidates)
+
+    def _manual_options(self, candidates: list[CandidateStandard]) -> list[Alternative]:
+        """Every qualifying product across the in-scope candidate standards, unscored (the agent did
+        not confidently pick), firm-approved first, deduped — a manual pick list."""
+        seen: set[str] = set()
+        options: list[Alternative] = []
+        for candidate in candidates:
+            standard = next((s for s in self.standards if s.intent == candidate.intent), None)
+            if standard is None:
+                continue
+            preferred = set(standard.preferred_products)
+            for product in qualified_products(standard, self.catalog.all()):
+                if product.product_id in seen:
+                    continue
+                seen.add(product.product_id)
                 options.append(self._option(product, product.product_id in preferred, None, None))
         return options
 
@@ -393,8 +422,8 @@ class Engine:
         Product performance/spec attributes that have no Revit built-in — acoustic NRC/CAC,
         light reflectance, NFPA 285, wear layer, slip/DCOF, humidity, emissions, etc. — would
         each need a dedicated *custom* shared parameter to store. That is intentionally out of
-        scope: those attributes are documented (see docs/REVIT-ADAPTER-HANDOFF.md §5) rather
-        than written, keeping the write to identity + the one native rating field.
+        scope: those attributes are surfaced in the artifact for reference rather than written,
+        keeping the write to identity + the one native rating field.
         """
         params = {
             "Acelab_Product_ID": product.product_id,
