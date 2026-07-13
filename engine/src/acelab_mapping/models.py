@@ -263,7 +263,28 @@ class RunSummary(BaseModel):
     products_considered: int
 
 
+class DecisionGroup(BaseModel):
+    """Elements sharing the same (category, type, room) — hence the same decision. The engine
+    already dedups these into a single decider call; this view collapses the per-element rows so a
+    reader sees each distinct decision once, with the element ids it covers."""
+
+    category: str
+    type: Optional[str] = None
+    room: Optional[str] = None
+    action: str
+    count: int
+    element_ids: list[int]
+    matched_standard: Optional[str] = None
+    chosen_product: Optional[ChosenProduct] = None
+    confidence: Optional[Confidence] = None
+    why: Optional[str] = None
+    needs_review: bool = False
+    note: Optional[str] = None
+    revit_write: Optional[RevitWrite] = None
+
+
 class RunResult(BaseModel):
     run: dict[str, Any]
     summary: RunSummary
+    groups: list[DecisionGroup]
     decisions: list[Decision]
