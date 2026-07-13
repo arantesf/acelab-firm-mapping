@@ -100,7 +100,7 @@ text.**
 - **Written values are re-derived.** After the decider picks a `product_id`, the parameters
   written (the four `Acelab_*` shared params + the built-in `Fire Rating`) come from the
   normalized catalog product. Specs with no Revit built-in (NRC, DCOF, NFPA 285, …) are
-  documented, not written (REVIT-ADAPTER-HANDOFF §5.1). The model's free text is used only
+  documented, not written. The model's free text is used only
   for the human-readable rationale.
 
 ```mermaid
@@ -187,13 +187,14 @@ Per element: `action` (map / abstain / skip), `matched_standard`, `chosen_produc
 (score + band + components), `honors_lessons` / `violates_lessons`, and
 for a mapping a `revit_write` block (`target_level: type`, parameters). Skips and abstentions
 carry a `note`. Produce one by running the engine (see [`README.md`](../README.md)); the exact
-schema is in [`REVIT-ADAPTER-HANDOFF.md §3`](REVIT-ADAPTER-HANDOFF.md).
+schema is the `RunResult` model in `engine/src/acelab_mapping/models.py`, and
+`artifacts/mapping-result.json` is a real example.
 
 By default a mapped decision carries **only its best pick** — the `chosen_product` and its
 `revit_write` — matching the lean shape of the sample artifact. Ranked `alternatives` are an
-**opt-in** payload (`--alternatives`, engine `with_alternatives`) for the propose-select UI
-(see [`PROPOSE-SELECT-HANDOFF.md`](PROPOSE-SELECT-HANDOFF.md)): every product that qualifies for
-the matched standard, best-first, so a human can override to any grounded material. `alternatives[0]`
+**opt-in** payload (`--alternatives`, engine `with_alternatives`) for the propose-select UI:
+the **top 3** are scored (best-first) and the rest of the qualifying products follow unscored, so a
+human can override to any grounded material. `alternatives[0]`
 *is* `chosen_product`; each option is independently applicable — its own composite `confidence` and
 re-derived `revit_write` — so the adapter writes whichever the user selects without re-deciding.
 
@@ -203,13 +204,16 @@ re-derived `revit_write` — so the adapter writes whichever the user selects wi
 
 The engine owns 100% of the decisions; the add-in owns 100% of the Revit I/O and re-decides
 nothing. It collects **ceilings, walls and floors** into the engine's snapshot shape (deriving
-each ceiling/floor room spatially, since layered elements have no room property, and each
-wall's exterior flag), gets the artifact, then binds the `Acelab_*` shared parameters
-(**type**-level), writes the product parameters, and — where one generic type must carry two
-products (e.g. `600 x 600mm Grid` spans an office → `cl-1022` and a wet room → a humidity
-tile) — **duplicates the type** and reassigns instances. Dry-run reports intended changes
-without a Transaction, and the run opens an HTML **decision report** styled like Material Hub.
-Full build guide: [`REVIT-ADAPTER-HANDOFF.md`](REVIT-ADAPTER-HANDOFF.md).
+each ceiling/floor room spatially, since layered elements have no room property, and each wall's
+exterior flag). A **human-in-the-loop review UI** (modeless WPF) streams the engine's ranked
+suggestions per element; the architect picks a product — the top-3 recommendation pre-selected,
+with any qualifying material available to override — and only on *Apply* does the add-in, in one
+Transaction, bind the `Acelab_*` shared parameters (**type**-level), write the product parameters,
+and **always duplicate the type** per product, reassigning only the selected instances so a shared
+type (e.g. `600 x 600mm Grid` across an office and a wet room) never leaks the change to elements
+the user did not pick.
+
+The add-in lives in a **separate repo**: <https://github.com/arantesf/acelab-revit-challenge>.
 
 ---
 

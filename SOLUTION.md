@@ -4,7 +4,8 @@ Inheriting a firm's material **standards** onto Revit model elements — decidin
 which standard applies, which approved product satisfies it, and how confident to be, with
 honest abstention.
 
-- **Screen recording (in Revit):** _<link — Loom / unlisted YouTube>_
+- **Screen recording (in Revit):** <https://www.loom.com/share/46c95588acbe48d79d23c7b6bbea572e>
+- **Revit add-in (separate repo):** <https://github.com/arantesf/acelab-revit-challenge>
 - **Result artifact from a real run:** [`artifacts/mapping-result.json`](artifacts/mapping-result.json)
   (`gpt-4.1-mini` via OpenRouter; reproduce with the §2 command)
 - **Model:** `openai/gpt-4.1-mini` via OpenRouter (config `ACELAB_MODEL`; chosen by a bake-off — see below)
@@ -17,7 +18,7 @@ honest abstention.
 For each element the engine produces one of three outcomes, and records **why**:
 
 - **map** — a firm standard applies and a catalog product satisfies it → the product's identity
-  and parameters are written (as a dry-run plan the Revit adapter applies).
+  and parameters are written by the Revit adapter (through the review UI: propose → select → apply).
 - **abstain** — the choice is too uncertain, nothing qualifies, or the firm library doesn't cover
   the element's category (doors, windows, interior partitions) → flagged for human review rather
   than guessed.
@@ -30,7 +31,8 @@ cladding (NFPA 285), resilient flooring (wear layer + slip). On the 38-element s
 9 abstain (uncovered categories), 0 skip, 0 hallucinated products. Those specs drive
 *qualification*; the write itself is scoped
 to the four `Acelab_*` shared params + the built-in `Fire Rating`. Specs without a Revit
-built-in (NRC, DCOF, NFPA 285, …) are documented, not written — see REVIT-ADAPTER-HANDOFF §5.1.
+built-in (NRC, DCOF, NFPA 285, …) are documented, not written — each would need a dedicated custom
+shared parameter, deliberately out of scope for this slice.
 
 ## 2. How to run
 
@@ -130,15 +132,30 @@ share one cached call.
 ## 4. The Revit adapter (thin, by design)
 
 The decision engine is separate from Revit and graded on `sample-model.json`; a C# add-in is a
-**mechanical executor** that re-decides nothing. It consumes the artifact and, in a Transaction:
+**mechanical executor** that re-decides nothing. The add-in adds a **human-in-the-loop review UI**
+(a modeless WPF panel): it collects ceilings/walls/floors, **streams** the engine's ranked
+suggestions per element into a table as they resolve, and lets the architect pick a product per
+element — the top-3 scored recommendation is pre-selected, with **every qualifying material of the
+category** available below to override, and the reasoning behind each pick shown inline. Nothing is
+written until *Apply*; then, in one Transaction, it:
 
-- **binds the `Acelab_*` shared parameters** from the `.txt` to Ceilings as **type** parameters
+- **binds the `Acelab_*` shared parameters** from the `.txt` to the category as **type** parameters
   (product identity is a type-level property), and writes the product parameters;
-- **duplicates a type where one generic type must carry two products** — in the sample,
-  `Generic - Lay-in` spans Open Office (`cl-1004`) and Pool Deck (a humidity tile); one Revit
-  type cannot hold both, so the add-in duplicates it and reassigns instances (the deliberate
-  type-vs-instance call);
-- supports **dry-run** (report intended changes, open no Transaction).
+- **always duplicates the type per product before writing**, reassigning only the selected
+  instances (`ElementType.Duplicate` + `ChangeTypeId`). Writing on a shared type in place would
+  change *every* instance of it in the model — including elements the user didn't select — so
+  duplication scopes each change to exactly the chosen elements (the deliberate type-vs-instance
+  call). In the sample, `Generic - Lay-in` spans Open Office (`cl-1004`) and Pool Deck (a humidity
+  tile) — one Revit type can't hold both.
+
+Apply is repeatable (it writes only the pending picks), so the review is iterative rather than a
+single blind batch.
+
+**Dry-run is the default posture, not a hidden mode.** The review window *is* the preview: it shows
+every element's decision, confidence, and the product (and parameters) that would be written, and
+opens **no Transaction** until *Apply* — so the challenge's dry-run requirement is satisfied by the
+UI itself, not a separate flag. The engine side also runs in dry-run always (`mode: "dry-run"` in the
+artifact); nothing is committed to the model without an explicit Apply.
 
 ### Type vs. instance — the rationale
 
@@ -152,13 +169,18 @@ parameters are for what genuinely varies per placement (Mark, offsets, phasing);
 product identity only adds per-copy bookkeeping and loses propagation.
 
 Where this stops being 1:1 is a single element that carries **two products** — a wall with
-cladding on the exterior face and paint on the interior. A type (or element) parameter holds one
-value, so you don't stamp two product IDs on the wall. The idiomatic resolution is to put each
-product identity on the **material of its layer**: a Revit `Material` has its own identity fields
+cladding on the exterior face and paint on the interior, materials on both sides. A type parameter
+holds one value, so you don't stamp two product IDs on the wall. **Instance parameters** are one
+route — a product per face on the same wall instance, without forcing a second type — but they
+fight the assembly rather than describe it. The idiomatic resolution is to put each product
+identity on the **material of its layer**: a Revit `Material` has its own identity fields
 (manufacturer, model, URL), and a wall's compound structure already references one material per
 layer — so the exterior cladding and the interior finish each carry their own Acelab id, composed
-by the assembly. The alternatives are to model the rainscreen as a **separate element** (restoring
-one element ↔ one product) or to code the interior side as a **room-finish** resolved in a schedule.
+by the assembly. That path also means we'd be **editing the materials directly** rather than
+duplicating wall / floor / ceiling types, which is closer to how designers think and lets one
+element genuinely hold several materials. The alternatives are to model the rainscreen as a
+**separate element** (restoring one element ↔ one product) or to code the interior side as a
+**room-finish** resolved in a schedule.
 
 The governing rule: product identity sits on the **type** when the element is 1:1 with a product,
 and drops to the **material** (per layer/face) when one element composes several. The three
@@ -166,7 +188,7 @@ categories here — ceiling tiles, cladding panels, resilient flooring — are a
 type-level products (Acelab evidently chose them that way), so type is correct and sufficient;
 the multi-material case stays a design consideration, not something the slice builds.
 
-Build guide and JSON contract: [`docs/REVIT-ADAPTER-HANDOFF.md`](docs/REVIT-ADAPTER-HANDOFF.md).
+The Revit add-in is a **separate repo**: <https://github.com/arantesf/acelab-revit-challenge>.
 
 ---
 
@@ -185,9 +207,14 @@ Build guide and JSON contract: [`docs/REVIT-ADAPTER-HANDOFF.md`](docs/REVIT-ADAP
 
 ### Where Revit constrains you
 
-- **Room for a ceiling isn't a property** — ceilings aren't room-bounded, so the adapter must
-  derive it spatially (`GetRoomAtPoint` below the ceiling, with a phase). Null rooms become
-  ambiguous cases the engine reviews.
+- **Ceilings and floors have no room** — neither is room-bounded in Revit (they are layered
+  `CeilingAndFloor` elements with only a "Room Bounding" flag, not a `Room` / `ToRoom` property),
+  yet the applicability judgment needs a room. So the adapter has to derive it geometrically — the
+  necessary hack (`RoomFinder`): sample a 5×5 grid across the element's footprint at a Z just above
+  the level (inside the room volume, not up at the ceiling plane where `GetRoomAtPoint` tends to
+  miss), call `GetRoomAtPoint` at each point with the element's phase, and take the room with the
+  most hits. No hit → `room: null`, which the engine treats as an honest ambiguous case to review
+  rather than guess.
 - **A product selection is a type**, so mapping a shared generic type to divergent products
   forces type duplication (above) — a real modeling decision, not a metadata write.
 - **The write side is transactional, single-threaded, version-locked.** Re-runs must be
@@ -222,21 +249,24 @@ the decision logic, because the catalog sits behind a boundary:
 > each product's `masterformat` / attributes — not from the real API contract. I built and
 > graded entirely against the provided local files.
 
-### Interactive resolution (the natural next step)
+### Interactive resolution (built — and the next step)
 
-Today an ambiguous element abstains with *what* was ambiguous. That structured note is exactly a
-clarifying question: instead of queuing it for review, the agent could **ask** ("this ceiling
-has no room — open office, wet room, or other?") with the candidate standards as options — the
-Claude-Code plan-mode pattern. The decision logic stays in the engine; only a UI (a Revit panel
-or a web chat + 3D viewer) is added. Deliberately **out of scope** for this batch deliverable,
-where abstention is the right behavior.
+The Revit add-in already provides the interactive layer: the review UI streams the engine's ranked
+suggestions and lets the architect pick per element (propose → select → apply) instead of a blind
+batch write, including a manual override to any qualifying material — and for a covered element the
+agent abstains on, it still offers the material list so the human decides rather than hitting a dead
+end. The natural extension is to turn an **abstention into a clarifying question**: an ambiguous
+element abstains with *what* was ambiguous, and that structured note is exactly a prompt — "this
+ceiling has no room — open office, wet room, or other?" with the candidate standards as options (the
+Claude-Code plan-mode pattern). The decision logic stays in the engine; the UI just gains a question
+path (or moves to a web chat + 3D viewer).
 
 ---
 
 ## 6. What I deliberately did not build
 
 To keep a focused, working slice: no hosted service (the engine is a library + CLI; production
-would put it behind a service with the key server-side), no region filter or price normalization
-(they don't fire on the graded input — better discussed here than shipped as dead code), and no
-interactive UI. The scarce signal is a grounded, honest, testable decision engine — that is what
-I optimized for.
+would put it behind a service with the key server-side), and no region filter or price
+normalization (they don't fire on the graded input — better discussed here than shipped as dead
+code). The scarce signal is a grounded, honest, testable decision engine — that is what I optimized
+for; the Revit add-in adds the interactive review layer (propose → select → apply) on top of it.

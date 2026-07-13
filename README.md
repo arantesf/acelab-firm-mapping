@@ -6,16 +6,17 @@ confident it is. It **abstains rather than guesses** when a standard doesn't cov
 or the data is too ambiguous.
 
 The **decision engine** runs against a serialized model (`sample-model.json`) with **no Revit
-installed** and emits a **dry-run plan**: per element, the chosen product and the exact type
+installed** and emits a **decision plan**: per element, the chosen product and the exact type
 parameters — including the `Acelab_*` **shared parameters** — that should be written.
 
 This repo is the **decision engine** (the graded, Revit-free deliverable). The thin **C# add-in**
-that applies the plan to a live model — binding shared parameters, writing type parameters,
-duplicating a type where one generic type must carry two products — is a **separate deliverable**;
-its full build guide is in [`docs/REVIT-ADAPTER-HANDOFF.md`](docs/REVIT-ADAPTER-HANDOFF.md).
+that applies the decisions to a live model — a human-in-the-loop review UI that binds shared
+parameters, writes type parameters, and duplicates a type per product — is a **separate repo**:
+<https://github.com/arantesf/acelab-revit-challenge>.
 
+- **Screen recording (in Revit):** <https://www.loom.com/share/46c95588acbe48d79d23c7b6bbea572e>
+- **Revit add-in (separate repo):** <https://github.com/arantesf/acelab-revit-challenge>
 - **Design:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-- **Revit add-in build guide:** [`docs/REVIT-ADAPTER-HANDOFF.md`](docs/REVIT-ADAPTER-HANDOFF.md)
 - **Write-up** (design decisions + path to production): [`SOLUTION.md`](SOLUTION.md)
 - **Result artifact from a real run:** [`artifacts/mapping-result.json`](artifacts/mapping-result.json)
 
@@ -69,7 +70,7 @@ engine/                     Python decision engine (the graded deliverable)
                              decider/ (port + fake + openrouter + caching) · artifact · cli
   tests/                     104 tests, no network
   scripts/bakeoff.py         model comparison
-docs/                       ARCHITECTURE.md · REVIT-ADAPTER-HANDOFF.md (add-in is a separate deliverable)
+docs/                       ARCHITECTURE.md  (the Revit add-in is a separate repo)
 data/                       canonical inputs: catalog, firm library, sample model, shared params
 artifacts/mapping-result.json  result artifact from a real openrouter run (committed)
 ```
